@@ -72,8 +72,9 @@ class CASBackend(object):
         username = _verify(ticket, service)
         if not username:
             return None
+        username = username.lower()
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(username__iexact=username)
         except User.DoesNotExist:
             # user will have an "unusable" password
             user = User.objects.create_user(username, '')
